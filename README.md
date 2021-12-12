@@ -1,13 +1,14 @@
 # Client-Logger
 ### Get real-time online users and save to MYSQL database
+
+> #### Note: If your website is using SSL/TLS please visit [HERE](https://github.com/Daniel31x13/Client-Logger-SSL "HERE"), this only works on HTTP not HTTPS.
+
 Basically what it does is aside from showing real-time total active clients in the node console it also logs the following information to a MYSQL database:
 - #### IP
 - #### User-agent
 - #### URL
 
 ![alt demo](https://i.imgur.com/j1tGY2h.png)
-
-> #### Note: If your website is using SSL/TLS please visit [HERE](https://github.com/Daniel31x13/Client-Logger-SSL "HERE"), this only works on HTTP not HTTPS.
 
 ------------
 ### Requirements
