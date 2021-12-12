@@ -22,13 +22,15 @@ These are the versions that I had so it **may** work on your PC if you had an ol
 #### First Step
 Add this code to your client HTML page ([Example](clientExample.html "Example")):
 
-    <script src="https://cdn.socket.io/4.4.0/socket.io.js"></script>
-    <script>
-        const socket = io("ADDRESS"); // Enter URL with port
-        socket.on('socketClientID', function (socketClientID) {
-            socket.emit('clientMessage', window.location.href);
-        });
-    </script>
+```javascript
+<script src="https://cdn.socket.io/4.4.0/socket.io.js"></script>
+<script>
+    const socket = io("ADDRESS"); // Enter URL with port
+    socket.on('socketClientID', function (socketClientID) {
+        socket.emit('clientMessage', window.location.href);
+    });
+</script>
+```
 
 #### Second Step
 Add a table with this query to your MYSQL client (make sure to edit "DatabaseName"):
