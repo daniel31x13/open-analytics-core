@@ -1,0 +1,22 @@
+{
+  "name": "client-logger",
+  "version": "1.0.0",
+  "description": "Get real-time online users and save to MYSQL database",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "author": "Daniel",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "socket.io": "^4.4.0",
+    "socket.io-client": "^4.4.0",
+    "ws": "^8.3.0"
+  }
+}
