@@ -13,10 +13,10 @@ let count;
 var users = [];
 
 const db = mysql.createConnection({
-    host     : 'HOST', // Enter host
-    user     : 'USER', // Enter user
-    password : 'PASSWORD', // Enter password
-    database : 'DATABASE' // Enter database
+    host     : 'localhost', // Enter host
+    user     : 'root', // Enter user
+    password : '1234', // Enter password
+    database : 'test' // Enter database
 });
 
 db.connect((err) => { // Connect to database
@@ -33,7 +33,7 @@ io.on('connection', (socket) => { // On connection
     users.push(clientIp); // Add user to array
 
     count = users.filter(function(item, pos) { return users.indexOf(item) == pos }).length; // The number of unique clients from the array
-    
+    console.clear();
     console.log('Total Clients: ' + count);
 
     io.emit('socketClientID', socket.client.id);
@@ -47,7 +47,7 @@ io.on('connection', (socket) => { // On connection
     socket.on('disconnect', () => { // On disconnection
         users.splice(users.indexOf(clientIp), 1); // Remove user from array
         count = users.filter(function(item, pos) { return users.indexOf(item) == pos }).length; // Update the number of unique clients from the array
-
+        console.clear();
         console.log('Total Clients: ' + count);
     });
 });
