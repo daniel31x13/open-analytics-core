@@ -14,7 +14,7 @@ Basically what it does is aside from showing real-time total active clients in t
 
 ### Demo
 
-![alt demo](https://i.imgur.com/6HyXbfP.png)
+![alt demo](https://i.imgur.com/Eqbrhxu.png)
 
 ------------
 ### Requirements
