@@ -1,5 +1,6 @@
+const geoip = require('fast-geoip');
 const express = require('express');
-const mysql = require('mysql');
+const { MongoClient } = require('mongodb');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
@@ -10,48 +11,76 @@ const io = require('socket.io')(http, {
 
 const PORT = process.env.PORT || 8080; // Edit port if needed
 let count;
-var users = [];
+let totalClients = [];
 
-const db = mysql.createConnection({
-    host     : 'localhost', // Enter host
-    user     : 'root', // Enter user
-    password : '1234', // Enter password
-    database : 'test' // Enter database
-});
+// Connect to MongoDB
+const uri = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"; // Edit accordingly
+const MClient = new MongoClient(uri);
+MClient.connect().catch(console.error);
 
-db.connect((err) => { // Connect to database
-    if(err) {
-        throw err;
-    }
-    console.log('Mysql Connected...')
-});
-
-io.on('connection', (socket) => { // On connection
+io.on('connection', async (socket) => { // On connection
     let clientIp = socket.request.connection.remoteAddress;
     let clientHeader = socket.request.headers['user-agent'];
+    let geo = await geoip.lookup(clientIp.slice(7)); // Check location by ip (Does not work for local ip addresses)
+    let clientURL;
 
-    users.push(clientIp); // Add user to array
+    function isMobile() { // Checks if client is mobile
+        const toMatch = [
+            /Android/i,
+            /webOS/i,
+            /iPhone/i,
+            /iPad/i,
+            /iPod/i,
+            /BlackBerry/i,
+            /Windows Phone/i
+        ];
+        
+        return toMatch.some((toMatchItem) => {
+            return clientHeader.match(toMatchItem);
+        });
+    }
 
-    count = users.filter(function(item, pos) { return users.indexOf(item) == pos }).length; // The number of unique clients from the array
-    console.clear();
+    totalClients.push(clientIp); // Add user to array
+
+    count = totalClients.filter(function(item, pos) { return totalClients.indexOf(item) == pos }).length; // The number of unique clients from the array
+
+    const connectDate = new Date()
+    let time = connectDate.toString();
+
+    console.clear(); // Clear previous log
     console.log('Total Clients: ' + count);
 
     io.emit('socketClientID', socket.client.id);
     socket.on('clientMessage', (url) => { // Get url from client
-        let sql = "INSERT INTO `users` (`ID`, `IP`, `USER-AGENT`, `URL`) VALUES (NULL, '" + clientIp + "', '" + clientHeader + "', '" + url + "');"
-        db.query(sql, (err, result) => { // Log the client ip, client header and visited url to database
-            if(err) throw err;
-        });
+        clientURL = url;
     });
 
-    socket.on('disconnect', () => { // On disconnection
-        users.splice(users.indexOf(clientIp), 1); // Remove user from array
-        count = users.filter(function(item, pos) { return users.indexOf(item) == pos }).length; // Update the number of unique clients from the array
-        console.clear();
+    socket.on('disconnect', async () => { // On disconnection
+        const disconnectDate = new Date()
+        let activeTime = Math.ceil((disconnectDate-connectDate)/1000).toString();
+
+        totalClients.splice(totalClients.indexOf(clientIp), 1); // Remove user from array
+        count = totalClients.filter(function(item, pos) { return totalClients.indexOf(item) == pos }).length; // Update the number of unique clients from the array
+    
+        let user = { // Store client info in an object
+            "Ip": clientIp,
+            "Location": geo.country,
+            "User-Agent": clientHeader,
+            "IsMobile": isMobile(),
+            "Url": clientURL,
+            "Date": time,
+            "Active-Time(seconds)": activeTime
+        }
+    
+        // Add to DB
+        await MClient.db("DatabaseName").collection("CollectionName").insertOne(user); // Edit 'DatabaseName' & 'CollectionName' accordingly
+
+        console.clear(); // Clear previous log
+        
         console.log('Total Clients: ' + count);
     });
 });
 
 http.listen(PORT, () => {
-    console.log(`Listening on ${PORT}`);
+    console.log("ALL SET!");
 });
