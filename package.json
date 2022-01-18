@@ -1,7 +1,7 @@
 {
-  "name": "client-logger",
+  "name": "Open-Analytics-Core-HTTP",
   "version": "1.0.0",
-  "description": "Get real-time online users and save to MYSQL database",
+  "description": "Get real-time online users and save the data to MongoDB database",
   "main": "index.js",
   "scripts": {
     "start": "node index",
