@@ -1,4 +1,4 @@
-# Open-Analytics-HTTP
+# Open-Analytics-Core-HTTP
 ### Get real-time online users and save to MongoDB database
 
 > #### Note: If your website is using SSL/TLS please visit [HERE](https://github.com/Daniel31x13/Client-Logger-HTTPS "HERE"), this only works on HTTP not HTTPS.
