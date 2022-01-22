@@ -32,9 +32,11 @@ Add this code to your client HTML page ([Example](clientExample.html "Example"))
 ```javascript
 <script src="https://cdn.socket.io/4.4.0/socket.io.js"></script>
 <script>
+    const url = new URL(document.referrer);
+    console.log(url.hostname);
     const socket = io("ADDRESS"); // Enter URL with port
     socket.on('socketClientID', function (socketClientID) {
-        socket.emit('clientMessage', window.location.href);
+        socket.emit('clientMessage', {url: window.location.href, referrer: url.hostname}); // Send url and referrer as an object
     });
 </script>
 ```
