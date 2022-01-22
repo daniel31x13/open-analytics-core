@@ -11,6 +11,7 @@ Basically what it does is aside from showing real-time total active clients in t
 - #### Active Time (Seconds)
 - #### Visited url
 - #### Location
+- #### Referrer
 
 ### Demo
 
