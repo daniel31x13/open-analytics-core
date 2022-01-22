@@ -17,7 +17,7 @@ Basically what it does is aside from showing real-time total active clients in t
 
 ------------
 ### Requirements
-> #### Note: If your website is using SSL/TLS please visit [HERE](https://github.com/Daniel31x13/Client-Logger-HTTPS "HERE"), this only works on HTTP not HTTPS.
+> #### Note: If your website is using SSL/TLS please visit [HERE](https://github.com/Daniel31x13/Open-Analytics-Core-HTTPS "HERE"), this only works on HTTP not HTTPS.
 These are the versions that I had so it **may** work on your PC if you had an older version installed:
 - #### NodeJS (version 16 or later)
 - #### MongoDB (version 5 or later)
