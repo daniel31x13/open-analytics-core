@@ -1,8 +1,6 @@
 # Open-Analytics-Core-HTTP
 ### Get real-time online users and save the data to MongoDB database.
 
-> #### Note: If your website is using SSL/TLS please visit [HERE](https://github.com/Daniel31x13/Client-Logger-HTTPS "HERE"), this only works on HTTP not HTTPS.
-
 Basically what it does is aside from showing real-time total active clients in the node console it also logs the following information to a MYSQL database:
 - #### Device Ip
 - #### User-agent
@@ -19,6 +17,7 @@ Basically what it does is aside from showing real-time total active clients in t
 
 ------------
 ### Requirements
+> #### Note: If your website is using SSL/TLS please visit [HERE](https://github.com/Daniel31x13/Client-Logger-HTTPS "HERE"), this only works on HTTP not HTTPS.
 These are the versions that I had so it **may** work on your PC if you had an older version installed:
 - #### NodeJS (version 16 or later)
 - #### MongoDB (version 5 or later)
