@@ -23,6 +23,7 @@ io.on('connection', async (socket) => { // On connection
     let clientHeader = socket.request.headers['user-agent'];
     let geo = await geoip.lookup(clientIp.slice(7)); // Check location by ip (Does not work for local ip addresses)
     let clientURL;
+    let clientReferrer;
 
     function isMobile() { // Checks if client is mobile
         const toMatch = [
@@ -51,8 +52,9 @@ io.on('connection', async (socket) => { // On connection
     console.log('Total Clients: ' + count);
 
     io.emit('socketClientID', socket.client.id);
-    socket.on('clientMessage', (url) => { // Get url from client
-        clientURL = url;
+    socket.on('clientMessage', (data) => { // Get url from client
+        clientURL = data.url;
+        clientReferrer = data.referrer;
     });
 
     socket.on('disconnect', async () => { // On disconnection
@@ -68,6 +70,7 @@ io.on('connection', async (socket) => { // On connection
             "User-Agent": clientHeader,
             "IsMobile": isMobile(),
             "Url": clientURL,
+            "Referrer": clientReferrer,
             "Date": time,
             "Active-Time(seconds)": activeTime
         }
