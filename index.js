@@ -1,3 +1,4 @@
+const assignUser = require('./lib/assignUser');
 const geoip = require('fast-geoip');
 const express = require('express');
 const { MongoClient } = require('mongodb');
@@ -25,22 +26,6 @@ io.on('connection', async (socket) => { // On connection
     let clientURL;
     let clientReferrer;
 
-    function isMobile() { // Checks if client is mobile
-        const toMatch = [
-            /Android/i,
-            /webOS/i,
-            /iPhone/i,
-            /iPad/i,
-            /iPod/i,
-            /BlackBerry/i,
-            /Windows Phone/i
-        ];
-        
-        return toMatch.some((toMatchItem) => {
-            return clientHeader.match(toMatchItem);
-        });
-    }
-
     totalClients.push(clientIp); // Add user to array
 
     count = totalClients.filter(function(item, pos) { return totalClients.indexOf(item) == pos }).length; // The number of unique clients from the array
@@ -64,19 +49,10 @@ io.on('connection', async (socket) => { // On connection
         totalClients.splice(totalClients.indexOf(clientIp), 1); // Remove user from array
         count = totalClients.filter(function(item, pos) { return totalClients.indexOf(item) == pos }).length; // Update the number of unique clients from the array
     
-        let user = { // Store client info in an object
-            "Ip": clientIp,
-            "Location": geo.country,
-            "User-Agent": clientHeader,
-            "IsMobile": isMobile(),
-            "Url": clientURL,
-            "Referrer": clientReferrer,
-            "Date": time,
-            "Active-Time(seconds)": activeTime
-        }
-    
+        let user = assignUser(clientIp, geo.country, clientHeader, clientURL, clientReferrer, time, activeTime);
+
         // Add to DB
-        await MClient.db("DatabaseName").collection("CollectionName").insertOne(user); // Edit 'DatabaseName' & 'CollectionName' accordingly
+        MClient.db("DatabaseName").collection("CollectionName").insertOne(user); // Edit 'DatabaseName' & 'CollectionName' accordingly
 
         console.clear(); // Clear previous log
         
