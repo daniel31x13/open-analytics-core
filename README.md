@@ -1,4 +1,4 @@
-# Open-Analytics-Core-HTTP
+# Open Analytics Core
 ### Get real-time online users and save the data to MongoDB database.
 
 Basically what it does is aside from showing real-time total active clients in the node console it also logs the following information to a MongoDB database:
