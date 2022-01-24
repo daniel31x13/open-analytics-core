@@ -3,6 +3,7 @@ const geoip = require('fast-geoip');
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const app = express();
+
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     cors: {
@@ -42,7 +43,7 @@ io.on('connection', async (socket) => { // On connection
         clientReferrer = data.referrer;
     });
 
-    socket.on('disconnect', async () => { // On disconnection
+    socket.on('disconnect', () => { // On disconnection
         const disconnectDate = new Date()
         let activeTime = Math.ceil((disconnectDate-connectDate)/1000).toString();
 
