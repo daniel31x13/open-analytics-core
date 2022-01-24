@@ -44,6 +44,8 @@ Run `npm install` in the main folder.
 #### Third Step
 And finally run `node index` also in the main folder.
 
+------------
+
 ### HTTPS Setup
 If your website is using HTTPS instead of HTTP you'll need to do the steps which are shown below:
 #### First Step
@@ -87,4 +89,4 @@ https.listen(PORT, () => {
 ```
 
 #### Fifth Step
-Lastly change the `const socket = io("ADDRESS");` to `const socket = io("ADDRESS", {secure: true});` where ever your using the [client script](clientExample.html "client script").
+Lastly change `const socket = io("ADDRESS");` to `const socket = io("ADDRESS", {secure: true});` where ever your using the [client script](clientExample.html "client script").
